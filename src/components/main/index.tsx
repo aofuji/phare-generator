@@ -151,14 +151,11 @@ export default function Main() {
             </tr>
           </thead>
           <tbody>
-
             {list.map((res) => (
               <tr key={res.phrase} className="bg-gray-100 border-b border-gray-200">
                 <td className="px-4 py-3"> {res.phrase}</td>
               </tr>
             ))}
-
-
           </tbody>
         </table>
       </div>
