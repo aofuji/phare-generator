@@ -1,6 +1,6 @@
 # Gerador de frases
 
-Gerador de frase do Candido Gay
+Candido Gay o gerador.
 
 
 ## Executando Projeto
