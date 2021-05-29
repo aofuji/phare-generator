@@ -1,4 +1,4 @@
-# Gerador de frases
+# Candido Gay Project
 
 Candido Gay o gerador.
 
