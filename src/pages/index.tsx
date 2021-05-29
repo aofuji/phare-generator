@@ -6,8 +6,6 @@ import Main from '../components/main'
 
 export default function Home() {
 
-  console.log('asdasd')
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
