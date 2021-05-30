@@ -41,17 +41,16 @@ export default function Main() {
       },
     ];
 
-    console.log(obj)
+    console.log(obj);
 
     setList([...obj]);
-
   };
 
   return (
     <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
       {/* Prefix */}
       <h1 className="w-full border-b-2 border-fuchsia-600 ">Prefix Name</h1>
-      <div className="mt-2 mb-10" >
+      <div className="mt-2 mb-10">
         <p>
           <input
             type="text"
@@ -141,24 +140,29 @@ export default function Main() {
           Gerar
         </button>
       </div>
-
-      <div className="list mt-8 mb-4">
-
-        <table className="table-auto rounded-t-lg m-5 w-full mx-auto bg-gray-200 text-gray-800">
-          <thead>
-            <tr className="text-left border-b-2 border-gray-300">
-              <th className="px-4 py-3">Frase</th>
-            </tr>
-          </thead>
-          <tbody>
-            {list.map((res) => (
-              <tr key={res.phrase} className="bg-gray-100 border-b border-gray-200">
-                <td className="px-4 py-3"> {res.phrase}</td>
+      {list.length > 0 ? (
+        <div className="list mt-8 mb-4">
+          <table className="table-auto rounded-t-lg m-5 w-full mx-auto bg-gray-200 text-gray-800">
+            <thead>
+              <tr className="text-left border-b-2 border-gray-300">
+                <th className="px-4 py-3">Frase</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {list.map((res) => (
+                <tr
+                  key={res.phrase}
+                  className="bg-gray-100 border-b border-gray-200"
+                >
+                  <td className="px-4 py-3"> {res.phrase}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div>Nenhuma frase gerada</div>
+      )}
     </main>
   );
 }
