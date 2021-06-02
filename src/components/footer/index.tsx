@@ -8,8 +8,8 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                Powered by{' '}
-                <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
+                Site desenvolvido em
+                <img src="/next.svg" alt="Vercel Logo" className="h-4 ml-2" />
             </a>
         </footer>
     )
