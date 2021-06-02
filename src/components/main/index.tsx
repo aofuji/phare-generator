@@ -1,4 +1,8 @@
 import React, { Fragment, useState } from "react";
+import { BeakerIcon } from '@heroicons/react/solid'
+import IconCheck from '../icons/check'
+import IconError from '../icons/error'
+
 
 export default function Main() {
   const [list, setList] = useState([]);
@@ -11,36 +15,6 @@ export default function Main() {
 
   //accessory
   const [inputFieldAcessory, setInputFieldAcessory] = useState([{ acessory: "" }])
-
-
-  const handleClick = async (e) => {
-    e.preventDefault();
-
-    // const obj = [
-    //   {
-    //     phrase: `${prefix1} ${sufix1} ${accessory1}`,
-    //   },
-    //   {
-    //     phrase: `${prefix1} ${sufix2} ${accessory2}`,
-    //   },
-    //   {
-    //     phrase: `${prefix1} ${sufix3} ${accessory3}`,
-    //   },
-    //   {
-    //     phrase: `${prefix1} ${sufix1} ${accessory4}`,
-    //   },
-    //   {
-    //     phrase: `${prefix1} ${sufix2} ${accessory5}`,
-    //   },
-    //   {
-    //     phrase: `${prefix1} ${sufix3} ${accessory6}`,
-    //   },
-    // ];
-
-    // console.log(obj);
-
-    // setList([...obj]);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,12 +54,12 @@ export default function Main() {
       return;
     }
 
-    let data = []
+    let data: Array<any> = []
 
-    let listAcessory = inputFieldAcessory
-    let listInverse = inputFieldAcessory.reverse()
+    let listAcessory: Array<any> = inputFieldAcessory
+    let listInverse: Array<any> = inputFieldAcessory.reverse()
 
-    let acessoryTwoPosition = []
+    let acessoryTwoPosition: Array<any> = []
 
     listInverse.forEach((inverse) => {
       listAcessory.forEach((res) => {
@@ -108,16 +82,17 @@ export default function Main() {
           acessoryTwoPosition.forEach((final) => {
             data.push([prefix, sufix, `${final[0]}`])
           });
-
         }
 
       });
 
     });
 
-    console.log(data)
+    const phraseList = data.map((res) => {
+      return { phrase: res.join(" ") };
+    })
 
-    console.log("Submit")
+    setList(phraseList)
 
   }
 
@@ -185,7 +160,7 @@ export default function Main() {
     <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
       <form onSubmit={handleSubmit}>
         {/* Prefix */}
-        <h1 className="w-full border-b-2 border-fuchsia-600 ">Prefix Name</h1>
+        <h1 className="w-full border-b-2 border-fuchsia-600 ">Prefixo</h1>
         <div className="mt-2 mb-10  w-40">
           <input
             type="text"
@@ -196,7 +171,7 @@ export default function Main() {
           />
         </div>
         {/* Sufix */}
-        <h2 className="w-full border-b-2 border-fuchsia-600 ">Sufix Name</h2>
+        <h2 className="w-full border-b-2 border-fuchsia-600 ">Sufixo</h2>
 
         {inputFieldsSufix.map((input, index) => (
           <Fragment key={`${input}~${index}`} >
@@ -231,7 +206,7 @@ export default function Main() {
         ))}
 
         {/* Acessory */}
-        <h2 className="w-full border-b-2 border-fuchsia-600 ">Acessory</h2>
+        <h2 className="w-full border-b-2 border-fuchsia-600 ">Acessório</h2>
         {inputFieldAcessory.map((input, index) => (
           <Fragment key={`${input}~${index}`} >
             <div className="mt-2 w-40 flex flex-row justify-items-start">
@@ -267,7 +242,7 @@ export default function Main() {
         <div className="w-4/5 flex justify-center mt-8">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-9 rounded focus:outline-none focus:shadow-outline"
           >
             Gerar
           </button>
@@ -279,7 +254,9 @@ export default function Main() {
           <table className="table-auto rounded-t-lg m-5 w-full mx-auto bg-gray-200 text-gray-800">
             <thead>
               <tr className="text-left border-b-2 border-gray-300">
-                <th className="px-4 py-3">Frase</th>
+                <th className="px-4 py-3">Frases</th>
+                <th className="px-4 py-3">Qtd</th>
+                <th className="px-4 py-3">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -289,15 +266,21 @@ export default function Main() {
                   className="bg-gray-100 border-b border-gray-200"
                 >
                   <td className="px-4 py-3"> {res.phrase}</td>
+                  <td className="px-4 py-3"> {res.phrase.length}</td>
+                  <td className="px-4 py-3"> {res.phrase.length > 60 ? <IconError /> : <IconCheck />}</td>
                 </tr>
               ))}
+              <tr>
+                <td>Quantidade: </td>
+                <td>{list.length}</td>
+              </tr>
             </tbody>
+
           </table>
         </div>
       ) : (
         <div>Nenhuma frase gerada</div>
-      )}
-
+      )}  
     </main>
   );
 }
