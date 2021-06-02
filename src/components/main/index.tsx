@@ -1,145 +1,279 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 
 export default function Main() {
   const [list, setList] = useState([]);
 
   //Prefix
-  const [prefix1, setprefix1] = useState("");
+  const [prefix, setprefix] = useState("");
   //Sufix
-  const [sufix1, setsufix1] = useState("");
-  const [sufix2, setsufix2] = useState("");
-  const [sufix3, setsufix3] = useState("");
+
+  const [inputFieldsSufix, setInputFieldsSufix] = useState([{ sufix: "" }])
+
   //accessory
-  const [accessory1, setaccessory1] = useState("");
-  const [accessory2, setaccessory2] = useState("");
-  const [accessory3, setaccessory3] = useState("");
-  const [accessory4, setaccessory4] = useState("");
-  const [accessory5, setaccessory5] = useState("");
-  const [accessory6, setaccessory6] = useState("");
+  const [inputFieldAcessory, setInputFieldAcessory] = useState([{ acessory: "" }])
+
 
   const handleClick = async (e) => {
     e.preventDefault();
 
-    const obj = [
-      {
-        phrase: `${prefix1} ${sufix1} ${accessory1}`,
-      },
-      {
-        phrase: `${prefix1} ${sufix2} ${accessory2}`,
-      },
-      {
-        phrase: `${prefix1} ${sufix3} ${accessory3}`,
-      },
-      {
-        phrase: `${prefix1} ${sufix1} ${accessory4}`,
-      },
-      {
-        phrase: `${prefix1} ${sufix2} ${accessory5}`,
-      },
-      {
-        phrase: `${prefix1} ${sufix3} ${accessory6}`,
-      },
-    ];
+    // const obj = [
+    //   {
+    //     phrase: `${prefix1} ${sufix1} ${accessory1}`,
+    //   },
+    //   {
+    //     phrase: `${prefix1} ${sufix2} ${accessory2}`,
+    //   },
+    //   {
+    //     phrase: `${prefix1} ${sufix3} ${accessory3}`,
+    //   },
+    //   {
+    //     phrase: `${prefix1} ${sufix1} ${accessory4}`,
+    //   },
+    //   {
+    //     phrase: `${prefix1} ${sufix2} ${accessory5}`,
+    //   },
+    //   {
+    //     phrase: `${prefix1} ${sufix3} ${accessory6}`,
+    //   },
+    // ];
 
-    console.log(obj);
+    // console.log(obj);
 
-    setList([...obj]);
+    // setList([...obj]);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+
+    const prefixVal = inputFieldsSufix.findIndex((res) => res.sufix === prefix);
+
+    const sufixListStrings = inputFieldsSufix.map((res) => res.sufix);
+
+    const acessoryListString = inputFieldAcessory.map((res) => res.acessory);
+    const listConcatStrings = [prefix, ...sufixListStrings, ...acessoryListString];
+
+    const sufix = hasDuplicates(sufixListStrings)
+    const acessory = hasDuplicates(acessoryListString)
+    const allForms = hasDuplicates(listConcatStrings)
+
+
+    //Verifica prefix tem no sufix
+    if (prefixVal !== -1) {
+      alert("existe um sufixo ou prefixo campos iguais")
+      return
+    }
+
+    //Verifica se existe sufix iguais na lista  
+    if (sufix) {
+      alert("Existe sufix com valores iguais")
+      return
+    }
+
+    if (acessory) {
+      alert("Existe acessorio com valores iquais")
+      return;
+    }
+
+    if (allForms) {
+      alert("Existe valores iguais nos campos preenchidos");
+      return;
+    }
+
+    let data = []
+
+    let listAcessory = inputFieldAcessory
+    let listInverse = inputFieldAcessory.reverse()
+
+    let acessoryTwoPosition = []
+
+    listInverse.forEach((inverse) => {
+      listAcessory.forEach((res) => {
+        if (inverse.acessory !== res.acessory) {
+          acessoryTwoPosition.push([inverse.acessory + ` ` + res.acessory])
+        }
+
+      });
+    });
+
+
+    inputFieldAcessory.forEach(({ acessory }, indexAcessory) => {
+
+      inputFieldsSufix.forEach(({ sufix }, index) => {
+
+        data.push([prefix, sufix, acessory])
+        //Verifica o ultimo de uma posicao do acessorio
+        if (inputFieldAcessory.length === (indexAcessory + 1)) {
+
+          acessoryTwoPosition.forEach((final) => {
+            data.push([prefix, sufix, `${final[0]}`])
+          });
+
+        }
+
+      });
+
+    });
+
+    console.log(data)
+
+    console.log("Submit")
+
+  }
+
+  const hasDuplicates = (array) => {
+    return (new Set(array)).size !== array.length;
+  }
+
+  const handleInputChange = (index: number, event, nameFIeld: string) => {
+    if (nameFIeld === "sufix") {
+      const values = [...inputFieldsSufix]
+
+      values[index].sufix = event.target.value
+      setInputFieldsSufix(values)
+    } else {
+      const values = [...inputFieldAcessory]
+
+      values[index].acessory = event.target.value
+      setInputFieldAcessory(values)
+    }
+
+  }
+
+  const handleAddFields = (nameField: string): void => {
+
+    if (nameField === "sufix") {
+
+      if (inputFieldsSufix.length > 19) {
+        alert("Limite de 20 campos")
+        return;
+      }
+
+      const values = [...inputFieldsSufix];
+      values.push({ sufix: "" });
+      setInputFieldsSufix(values);
+    } else {
+
+      if (inputFieldAcessory.length > 29) {
+        alert("Limite de 30 campos");
+        return;
+      }
+
+      const values = [...inputFieldAcessory];
+      values.push({ acessory: "" });
+      setInputFieldAcessory(values);
+    }
+
+  };
+
+  const handleRemoveFields = (index: number, nameField: string): void => {
+
+    if (nameField === "sufix") {
+      const values = [...inputFieldsSufix];
+      values.splice(index, 1);
+      setInputFieldsSufix(values);
+    } else {
+      const values = [...inputFieldAcessory];
+      values.splice(index, 1);
+      setInputFieldAcessory(values);
+    }
+
+  };
+
 
   return (
     <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-      {/* Prefix */}
-      <h1 className="w-full border-b-2 border-fuchsia-600 ">Prefix Name</h1>
-      <div className="mt-2 mb-10">
-        <p>
+      <form onSubmit={handleSubmit}>
+        {/* Prefix */}
+        <h1 className="w-full border-b-2 border-fuchsia-600 ">Prefix Name</h1>
+        <div className="mt-2 mb-10  w-40">
           <input
             type="text"
             className="border-2 border-fuchsia-600 "
             placeholder="Prefix1"
-            onChange={(e) => setprefix1(e.target.value)}
+            onChange={(e) => setprefix(e.target.value)}
+            required
           />
-        </p>
-      </div>
-      {/* Sufix */}
-      <h2 className="w-full border-b-2 border-fuchsia-600 ">Sufix Name</h2>
-      <div className="mb-10">
-        <p>
-          <input
-            type="text"
-            placeholder="Sufix1"
-            onChange={(e) => setsufix1(e.target.value)}
-          />
-        </p>
-        <p>
-          <input
-            type="text"
-            placeholder="Sufix2"
-            onChange={(e) => setsufix2(e.target.value)}
-          />
-        </p>
-        <p>
-          <input
-            type="text"
-            placeholder="Sufix3"
-            onChange={(e) => setsufix3(e.target.value)}
-          />
-        </p>
-      </div>
-      {/* Acessory */}
-      <h2 className="w-full border-b-2 border-fuchsia-600 ">Acessory</h2>
-      <div className="mb-10">
-        <p>
-          <input
-            type="text"
-            placeholder="Acessory1"
-            onChange={(e) => setaccessory1(e.target.value)}
-          />
-        </p>
-        <p>
-          <input
-            type="text"
-            placeholder="Acessory2"
-            onChange={(e) => setaccessory2(e.target.value)}
-          />
-        </p>
-        <p>
-          <input
-            type="text"
-            placeholder="Acessory3"
-            onChange={(e) => setaccessory3(e.target.value)}
-          />
-        </p>
-        <p>
-          <input
-            type="text"
-            placeholder="Acessory4"
-            onChange={(e) => setaccessory4(e.target.value)}
-          />
-        </p>
-        <p>
-          <input
-            type="text"
-            placeholder="Acessory5"
-            onChange={(e) => setaccessory5(e.target.value)}
-          />
-        </p>
-        <p>
-          <input
-            type="text"
-            placeholder="Acessory6"
-            onChange={(e) => setaccessory6(e.target.value)}
-          />
-        </p>
-      </div>
-      <div className="w-4/5 flex justify-center mt-8">
-        <button
-          type="button"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={handleClick}
-        >
-          Gerar
-        </button>
-      </div>
+        </div>
+        {/* Sufix */}
+        <h2 className="w-full border-b-2 border-fuchsia-600 ">Sufix Name</h2>
+
+        {inputFieldsSufix.map((input, index) => (
+          <Fragment key={`${input}~${index}`} >
+            <div className="mt-2 w-40 flex flex-row justify-items-start">
+              <input
+                className="border-2 border-fuchsia-600 "
+                type="text"
+                value={input.sufix}
+                placeholder={`sufix${index + 1}`}
+                onChange={(event) => handleInputChange(index, event, "sufix")}
+                required
+              />
+              <div className="ml-4">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="button"
+                  onClick={() => handleAddFields("sufix")}
+                > +
+                </button>
+              </div>
+              {index == 0 ? (<div></div>) : (<div className="ml-4">
+                <button
+                  className="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="button"
+                  onClick={() => handleRemoveFields(index, "sufix")}
+                > -
+                </button>
+              </div>)}
+
+            </div>
+          </Fragment>
+        ))}
+
+        {/* Acessory */}
+        <h2 className="w-full border-b-2 border-fuchsia-600 ">Acessory</h2>
+        {inputFieldAcessory.map((input, index) => (
+          <Fragment key={`${input}~${index}`} >
+            <div className="mt-2 w-40 flex flex-row justify-items-start">
+              <input
+                className="border-2 border-fuchsia-600 "
+                type="text"
+                value={input.acessory}
+                placeholder={`sufix${index + 1}`}
+                onChange={(event) => handleInputChange(index, event, "acessory")}
+                required
+              />
+              <div className="ml-4">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="button"
+                  onClick={() => handleAddFields("acessory")}
+                > +
+                </button>
+              </div>
+              {index == 0 ? (<div></div>) : (<div className="ml-4">
+                <button
+                  className="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="button"
+                  onClick={() => handleRemoveFields(index, "acessory")}
+                > -
+                </button>
+              </div>)}
+
+            </div>
+          </Fragment>
+        ))}
+        {/* BUtton */}
+        <div className="w-4/5 flex justify-center mt-8">
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Gerar
+          </button>
+        </div>
+        {/*  */}
+      </form>
       {list.length > 0 ? (
         <div className="list mt-8 mb-4">
           <table className="table-auto rounded-t-lg m-5 w-full mx-auto bg-gray-200 text-gray-800">
@@ -163,6 +297,7 @@ export default function Main() {
       ) : (
         <div>Nenhuma frase gerada</div>
       )}
+
     </main>
   );
 }
