@@ -267,7 +267,7 @@ export default function Main() {
                 >
                   <td className="px-4 py-3"> {res.phrase}</td>
                   <td className="px-4 py-3"> {res.phrase.length}</td>
-                  <td className="px-4 py-3"> {res.phrase.length > 60 ? 'NO' : 'Ok' }</td>
+                  <td className="px-4 py-3"> {res.phrase.length > 60 ? <IconError /> : <IconCheck />}</td>
                 </tr>
               ))}
               <tr>
