@@ -56,8 +56,11 @@ export default function Main() {
 
     let data: Array<any> = []
 
-    let listAcessory: Array<any> = inputFieldAcessory
-    let listInverse: Array<any> = inputFieldAcessory.reverse()
+    
+
+    const listAcessory: Array<any> = [...inputFieldAcessory] 
+    const listInverse: Array<any> = [...listAcessory.reverse()]
+
 
     let acessoryTwoPosition: Array<any> = []
 
