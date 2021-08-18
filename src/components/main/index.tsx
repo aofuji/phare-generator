@@ -1,89 +1,195 @@
-import React, { Fragment, useState } from "react";
-import { BeakerIcon } from '@heroicons/react/solid'
-import IconCheck from '../icons/check'
-import IconError from '../icons/error'
+import React, { useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+import { ToastContainer, toast } from 'react-toastify';
 
+import Loading from '../loading'
+
+import Field from "../field"
+import ListPhrase from "../list";
 
 export default function Main() {
+
+  const [loading, setLoading]= useState(false)
   const [list, setList] = useState([]);
 
-  //Prefix
-  const [prefix, setprefix] = useState("");
-  //Sufix
 
-  const [inputFieldsSufix, setInputFieldsSufix] = useState([{ sufix: "" }])
-
-  //accessory
-  const [inputFieldAcessory, setInputFieldAcessory] = useState([{ acessory: "" }])
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onHandleDuplicates = (array) => {
+    return (new Set(array)).size !== array.length;
+  }
 
 
-    const prefixVal = inputFieldsSufix.findIndex((res) => res.sufix === prefix);
+  const { register, handleSubmit, control, watch, formState: { errors } } = useForm<any>({
+    defaultValues: {
+      fieldPrefix: [{ name: "Prefixo", }],
+      fieldSufix: [{ name: "Sufixo" }],
+      fieldAcessory: [{ name: "Acessory" }],
+    },
+  });
 
-    const sufixListStrings = inputFieldsSufix.map((res) => res.sufix);
+  const fieldPrefix = useFieldArray({
+    control,
+    name: "fieldPrefix"
+  });
 
-    const acessoryListString = inputFieldAcessory.map((res) => res.acessory);
-    const listConcatStrings = [prefix, ...sufixListStrings, ...acessoryListString];
+  const fieldSufix = useFieldArray({
+    control,
+    name: "fieldSufix"
+  });
 
-    const sufix = hasDuplicates(sufixListStrings)
-    const acessory = hasDuplicates(acessoryListString)
-    const allForms = hasDuplicates(listConcatStrings)
+  const fieldAcessory = useFieldArray({
+    control,
+    name: "fieldAcessory"
+  });
 
+  const watchFieldPrefix = watch("fieldPrefix");
+  const watchFieldSufix = watch("fieldSufix");
+  const watchFieldAcessory = watch("fieldAcessory");
 
-    //Verifica prefix tem no sufix
-    if (prefixVal !== -1) {
-      alert("existe um sufixo ou prefixo campos iguais")
-      return
-    }
+  const controlledFieldPrefix = fieldPrefix.fields.map((field, index) => {
+    return {
+      ...field,
+      ...watchFieldPrefix[index],
+    };
+  });
 
-    //Verifica se existe sufix iguais na lista  
-    if (sufix) {
-      alert("Existe sufix com valores iguais")
-      return
-    }
+  const controlledFieldsSufix = fieldSufix.fields.map((field, index) => {
+    return {
+      ...field,
+      ...watchFieldSufix[index]
+    };
+  });
 
-    if (acessory) {
-      alert("Existe acessorio com valores iquais")
+  const controlledFieldsAcessory = fieldAcessory.fields.map((field, index) => {
+    return {
+      ...field,
+      ...watchFieldAcessory[index]
+    };
+  });
+
+  type IField = {
+    name: string;
+  }
+
+  type IArray = {
+    fieldAcessory: Array<IField>
+    fieldPrefix: Array<IField>
+    fieldSufix: Array<IField>
+  }
+
+  const onSubmit = (data: IArray) => {
+
+    setLoading(true)
+
+    verifyFieldDuplicate(data)
+
+    if (verifyFieldDuplicate(data)) {
+      toast.warn('Existem valores duplicados', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      // onHandleFieldErrPosition(data)
       return;
     }
 
-    if (allForms) {
-      alert("Existe valores iguais nos campos preenchidos");
-      return;
+    const listAcessoryTwoPosition = concatFieldAcessory(data);
+
+    const list = verifylist(data, listAcessoryTwoPosition);
+
+    const listPhrase = list.map((res) => {
+      return { phrase: res.join(" ") };
+    });
+
+    setTimeout(() => {
+      setList(listPhrase);
+      setLoading(false)
+    }, 2000);
+
+  
+  };
+
+  const verifyFieldDuplicate = (data: IArray): boolean => {
+
+    const arrPrefix = data.fieldPrefix.map((res) => res.name);
+    const arrSufixo = data.fieldSufix.map((res) => res.name);
+    const arrAcessory = data.fieldAcessory.map((res) => res.name);
+
+    const arrConcat = [...arrPrefix, ...arrSufixo, ...arrAcessory];
+
+    return onHandleDuplicates(arrConcat)
+  }
+
+  const onHandleFieldErrPosition = (data: IArray) => {
+    console.log(data)
+    const arrPrefix = data.fieldPrefix.map((res) => res.name);
+    const arrSufixo = data.fieldSufix.map((res) => res.name);
+    const arrAcessory = data.fieldAcessory.map((res) => res.name);
+
+    // const compare = arrSufixo.filter((res) => arrAcessory.filter((acessory) => acessory.name === res.name).length)
+
+    // console.log(JSON.stringify(compare))
+
+    // const positionsufixo = arrSufixo.findIndex((res, index) => {
+    //   if (res.name === compare[0].name) {
+
+    //     return res.index =index
+
+    //   }
+    //   return null
+    // })
+
+    // console.log(positionsufixo)
+
+    console.log("Match found: " + findMatch(arrSufixo, arrAcessory))
+    console.log("Match found1: " + findMatch(arrAcessory, arrSufixo))
+
+    function findMatch(array_1_small, array2_large) {
+      var positions = Array.from(array2_large.entries()).reduce((acc, t) => {
+        var index = t[0]
+        var element = t[1]
+        if (!acc.hasOwnProperty(element)) {
+          acc[element] = []
+        }
+        acc[element].push(index)
+        return acc
+      }, {})
+      var result = new Set()
+      array_1_small.forEach(x => {
+        if (positions[x] === undefined) {
+          return
+        }
+        positions[x].forEach(index => result.add(index))
+      })
+      return Array.from(result)
     }
+
+
+
+
+  }
+
+  const verifylist = (formArray: IArray, acessoryTwoPosition: Array<any>) => {
+
+    const listAcessory = formArray.fieldAcessory
+    const listSufix = formArray.fieldSufix
+    const prefix = formArray.fieldPrefix[0]
 
     let data: Array<any> = []
 
-    
+    listAcessory.forEach((acessory, indexAcessory) => {
 
-    const listAcessory: Array<any> = [...inputFieldAcessory] 
-    const listInverse: Array<any> = [...listAcessory.reverse()]
+      listSufix.forEach((sufix, index) => {
 
-
-    let acessoryTwoPosition: Array<any> = []
-
-    listInverse.forEach((inverse) => {
-      listAcessory.forEach((res) => {
-        if (inverse.acessory !== res.acessory) {
-          acessoryTwoPosition.push([inverse.acessory + ` ` + res.acessory])
-        }
-
-      });
-    });
-
-
-    inputFieldAcessory.forEach(({ acessory }, indexAcessory) => {
-
-      inputFieldsSufix.forEach(({ sufix }, index) => {
-
-        data.push([prefix, sufix, acessory])
+        data.push([prefix.name, sufix.name, acessory.name])
         //Verifica o ultimo de uma posicao do acessorio
-        if (inputFieldAcessory.length === (indexAcessory + 1)) {
+        if (listAcessory.length === (indexAcessory + 1)) {
 
           acessoryTwoPosition.forEach((final) => {
-            data.push([prefix, sufix, `${final[0]}`])
+            data.push([prefix.name, sufix.name, `${final[0]}`])
           });
         }
 
@@ -91,199 +197,82 @@ export default function Main() {
 
     });
 
-    const phraseList = data.map((res) => {
-      return { phrase: res.join(" ") };
-    })
-
-    setList(phraseList)
+    return data;
 
   }
 
-  const hasDuplicates = (array) => {
-    return (new Set(array)).size !== array.length;
+  const concatFieldAcessory = (list: IArray): Array<any> => {
+    const listAcessory: Array<IField> = [...list.fieldAcessory]
+    const listInverse: Array<IField> = [...listAcessory.reverse()]
+
+    let data: Array<any> = []
+
+    listInverse.forEach((inverse) => {
+      listAcessory.forEach((res) => {
+        if (inverse.name !== res.name) {
+          data.push([inverse.name + ` ` + res.name])
+        }
+      });
+    });
+
+    return data;
   }
-
-  const handleInputChange = (index: number, event, nameFIeld: string) => {
-    if (nameFIeld === "sufix") {
-      const values = [...inputFieldsSufix]
-
-      values[index].sufix = event.target.value
-      setInputFieldsSufix(values)
-    } else {
-      const values = [...inputFieldAcessory]
-
-      values[index].acessory = event.target.value
-      setInputFieldAcessory(values)
-    }
-
-  }
-
-  const handleAddFields = (nameField: string): void => {
-
-    if (nameField === "sufix") {
-
-      if (inputFieldsSufix.length > 19) {
-        alert("Limite de 20 campos")
-        return;
-      }
-
-      const values = [...inputFieldsSufix];
-      values.push({ sufix: "" });
-      setInputFieldsSufix(values);
-    } else {
-
-      if (inputFieldAcessory.length > 29) {
-        alert("Limite de 30 campos");
-        return;
-      }
-
-      const values = [...inputFieldAcessory];
-      values.push({ acessory: "" });
-      setInputFieldAcessory(values);
-    }
-
-  };
-
-  const handleRemoveFields = (index: number, nameField: string): void => {
-
-    if (nameField === "sufix") {
-      const values = [...inputFieldsSufix];
-      values.splice(index, 1);
-      setInputFieldsSufix(values);
-    } else {
-      const values = [...inputFieldAcessory];
-      values.splice(index, 1);
-      setInputFieldAcessory(values);
-    }
-
-  };
-
 
   return (
-    <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-      <form onSubmit={handleSubmit}>
-        {/* Prefix */}
-        <h1 className="w-full border-b-2 border-fuchsia-600 ">Prefixo</h1>
-        <div className="mt-2 mb-10  w-40">
-          <input
-            type="text"
-            className="border-2 border-fuchsia-600 "
-            placeholder="Prefix1"
-            onChange={(e) => setprefix(e.target.value)}
-            required
-          />
-        </div>
-        {/* Sufix */}
-        <h2 className="w-full border-b-2 border-fuchsia-600 ">Sufixo</h2>
+    <div className="flex flex-col justify-center bg-gray-50">
+      <main className="p-9">
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          {/* Prefix */}
+          <div className="flex flex-wrap -mx-3 mb-6">
+            <Field fields={controlledFieldPrefix} register={register} nameInput="fieldPrefix" label="Prefix" fieldControl={fieldPrefix} errors={errors} />
+          </div>
 
-        {inputFieldsSufix.map((input, index) => (
-          <Fragment key={`${input}~${index}`} >
-            <div className="mt-2 w-40 flex flex-row justify-items-start">
-              <input
-                className="border-2 border-fuchsia-600 "
-                type="text"
-                value={input.sufix}
-                placeholder={`sufix${index + 1}`}
-                onChange={(event) => handleInputChange(index, event, "sufix")}
-                required
-              />
-              <div className="ml-4">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="button"
-                  onClick={() => handleAddFields("sufix")}
-                > +
-                </button>
-              </div>
-              {index == 0 ? (<div></div>) : (<div className="ml-4">
-                <button
-                  className="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="button"
-                  onClick={() => handleRemoveFields(index, "sufix")}
-                > -
-                </button>
-              </div>)}
-
+          <div className="flex flex-row justify-between">
+            {/* Sufix */}
+            <div className="w-full -mx-3 mb-6 mr-2">
+              <Field fields={controlledFieldsSufix} register={register} nameInput="fieldSufix" label="Sufix" fieldControl={fieldSufix} errors={errors} />
             </div>
-          </Fragment>
-        ))}
 
-        {/* Acessory */}
-        <h2 className="w-full border-b-2 border-fuchsia-600 ">Acessório</h2>
-        {inputFieldAcessory.map((input, index) => (
-          <Fragment key={`${input}~${index}`} >
-            <div className="mt-2 w-40 flex flex-row justify-items-start">
-              <input
-                className="border-2 border-fuchsia-600 "
-                type="text"
-                value={input.acessory}
-                placeholder={`sufix${index + 1}`}
-                onChange={(event) => handleInputChange(index, event, "acessory")}
-                required
-              />
-              <div className="ml-4">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="button"
-                  onClick={() => handleAddFields("acessory")}
-                > +
-                </button>
-              </div>
-              {index == 0 ? (<div></div>) : (<div className="ml-4">
-                <button
-                  className="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="button"
-                  onClick={() => handleRemoveFields(index, "acessory")}
-                > -
-                </button>
-              </div>)}
-
+            {/* Acessory */}
+            <div className="w-full -mx-3 mb-6">
+              <Field fields={controlledFieldsAcessory} register={register} nameInput="fieldAcessory" label="Acessorio" fieldControl={fieldAcessory} errors={errors} />
             </div>
-          </Fragment>
-        ))}
-        {/* BUtton */}
-        <div className="w-4/5 flex justify-center mt-8">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-9 rounded focus:outline-none focus:shadow-outline"
-          >
-            Gerar
-          </button>
-        </div>
-        {/*  */}
-      </form>
-      {list.length > 0 ? (
-        <div className="list mt-8 mb-4">
-          <table className="table-auto rounded-t-lg m-5 w-full mx-auto bg-gray-200 text-gray-800">
-            <thead>
-              <tr className="text-left border-b-2 border-gray-300">
-                <th className="px-4 py-3">Frases</th>
-                <th className="px-4 py-3">Qtd</th>
-                <th className="px-4 py-3">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {list.map((res) => (
-                <tr
-                  key={res.phrase}
-                  className="bg-gray-100 border-b border-gray-200"
-                >
-                  <td className="px-4 py-3"> {res.phrase}</td>
-                  <td className="px-4 py-3"> {res.phrase.length}</td>
-                  <td className="px-4 py-3"> {res.phrase.length > 60 ? <IconError /> : <IconCheck />}</td>
-                </tr>
-              ))}
-              <tr>
-                <td>Quantidade: </td>
-                <td>{list.length}</td>
-              </tr>
-            </tbody>
+          </div>
 
-          </table>
-        </div>
-      ) : (
-        <div>Nenhuma frase gerada</div>
-      )}  
-    </main>
+          {/* Button */}
+          <div className="flex flex-wrap -mx-3 mb-6 ml-1">
+            <button
+              type="submit"
+              className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+            >
+              Gerar
+            </button>
+          </div>
+        </form>
+
+         <Loading value={loading} />
+        
+        {!loading ? (
+          <div className="flex flex-col justify-center">
+            <ListPhrase list={list} />
+          </div>
+        ):null}
+
+      </main>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <ToastContainer />
+
+    </div>
   );
 }
