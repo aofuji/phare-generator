@@ -1,9 +1,17 @@
 import { ToastContainer, toast } from 'react-toastify';
 
-export default function Button({fields, fieldControl, nameButton, index, nameInput}) {
-  const addField = (field): void => {
-    
-    if(nameInput === "fieldSufix" && fields.length > 19) {
+type ButtonTypes = {
+  fields?: any;
+  fieldControl: any;
+  nameButton: string;
+  index: number;
+  nameInput: any;
+}
+
+export default function Button({ fields, fieldControl, nameButton, index, nameInput }: ButtonTypes) {
+  const addField = (field:any): void => {
+
+    if (nameInput === "fieldSufix" && fields.length > 19) {
       toast.warn('Limite de 20 campos!', {
         position: "top-right",
         autoClose: 2000,
@@ -12,8 +20,8 @@ export default function Button({fields, fieldControl, nameButton, index, nameInp
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        });
-        return
+      });
+      return
     } else if (nameInput === "fieldAcessory" && fields.length > 29) {
       toast.warn('Limite de 30 campos!', {
         position: "top-right",
@@ -23,8 +31,8 @@ export default function Button({fields, fieldControl, nameButton, index, nameInp
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        });
-        return
+      });
+      return
     }
 
     field.append({
@@ -39,9 +47,9 @@ export default function Button({fields, fieldControl, nameButton, index, nameInp
         onClick={() => addField(fieldControl)}
       >
         +
-        
+
       </button>
-      
+
     );
   }
 
