@@ -28,29 +28,23 @@ export default function Field({
               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                 {label}
               </label>
-              <div>
-                {nameInput !== "fieldPrefix" ? (
-                  <Button
-                    fields={fields}
-                    nameInput={nameInput}
-                    nameButton="buttonAdd"
-                    index={index}
-                    fieldControl={fieldControl}
-                  />
-                ) : (
-                  ""
-                )}
-                {nameInput !== "fieldPrefix" && fields.length > 1 ? (
-                  <Button
-                    fields={fields}
-                    nameInput={nameInput}
-                    nameButton="buttonRemove"
-                    index={index}
-                    fieldControl={fieldControl}
-                  />
-                ) : (
-                  ""
-                )}
+              <div className="">
+                <Button
+                  isButton={nameInput !== "fieldPrefix" ? true : false}
+                  fields={fields}
+                  nameInput={nameInput}
+                  nameButton="buttonAdd"
+                  index={index}
+                  fieldControl={fieldControl}
+                />
+                <Button
+                  isButton={nameInput !== "fieldPrefix" && fields.length > 1 ? true : false}
+                  fields={fields}
+                  nameInput={nameInput}
+                  nameButton="buttonRemove"
+                  index={index}
+                  fieldControl={fieldControl}
+                />
               </div>
             </div>
 

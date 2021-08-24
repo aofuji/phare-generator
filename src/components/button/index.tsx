@@ -1,4 +1,4 @@
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 type ButtonTypes = {
   fields?: any;
@@ -6,10 +6,11 @@ type ButtonTypes = {
   nameButton: string;
   index: number;
   nameInput: any;
+  isButton: boolean;
 }
 
-export default function Button({ fields, fieldControl, nameButton, index, nameInput }: ButtonTypes) {
-  const addField = (field:any): void => {
+export default function Button({ fields, fieldControl, nameButton, index, nameInput, isButton }: ButtonTypes) {
+  const addField = (field: any): void => {
 
     if (nameInput === "fieldSufix" && fields.length > 19) {
       toast.warn('Limite de 20 campos!', {
@@ -40,25 +41,28 @@ export default function Button({ fields, fieldControl, nameButton, index, nameIn
     });
   };
 
-  if (nameButton === "buttonAdd") {
+  if (isButton) {
+    if (nameButton === "buttonAdd") {
+      return (
+        <button
+          className="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow mb-2"
+          onClick={() => addField(fieldControl)}
+        >
+          +
+        </button>
+      );
+    }
+
     return (
       <button
-        className="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow mb-2"
-        onClick={() => addField(fieldControl)}
+        className="bg-red-600 hover:bg-red-500 text-white font-semibold py-2 px-5 border border-gray-400 rounded shadow mb-2 ml-2"
+        onClick={() => fieldControl.remove(index)}
       >
-        +
-
+        -
       </button>
-
     );
   }
 
-  return (
-    <button
-      className="bg-red-600 hover:bg-red-500 text-white font-semibold py-2 px-5 border border-gray-400 rounded shadow mb-2 ml-2"
-      onClick={() => fieldControl.remove(index)}
-    >
-      -
-    </button>
-  );
+  return null
+
 }

@@ -9,7 +9,7 @@ import ListPhrase from "../list";
 
 export default function Main() {
 
-  const [loading, setLoading]= useState(false)
+  const [loading, setLoading] = useState(false)
   const [list, setList] = useState([]);
 
 
@@ -41,11 +41,14 @@ export default function Main() {
     name: "fieldAcessory"
   });
 
+
+
   const watchFieldPrefix = watch("fieldPrefix");
   const watchFieldSufix = watch("fieldSufix");
   const watchFieldAcessory = watch("fieldAcessory");
 
   const controlledFieldPrefix = fieldPrefix.fields.map((field, index) => {
+
     return {
       ...field,
       ...watchFieldPrefix[index],
@@ -109,7 +112,7 @@ export default function Main() {
       setLoading(false)
     }, 2000);
 
-  
+
   };
 
   const verifyFieldDuplicate = (data: IArray): boolean => {
@@ -218,7 +221,7 @@ export default function Main() {
     return data;
   }
 
- 
+
   return (
     <div className="flex flex-col justify-center bg-gray-50">
       <main className="p-9">
@@ -251,13 +254,8 @@ export default function Main() {
           </div>
         </form>
 
-         <Loading value={loading} />
-        
-        {!loading ? (
-          <div className="flex flex-col justify-center">
-            <ListPhrase list={list} />
-          </div>
-        ):null}
+        <Loading value={loading} />
+        <ListPhrase list={list} isLoading={!loading} />
 
       </main>
 
