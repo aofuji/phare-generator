@@ -4,13 +4,13 @@ import IconCheck from "../icons/check";
 import IconError from "../icons/error";
 
 type Phrase = {
-  phrase: string
-}
+  phrase: string;
+};
 
 type ArrayPhrase = {
   list: Array<Phrase>;
   isLoading: boolean;
-}
+};
 
 export default function ListPhrase({ list, isLoading }: ArrayPhrase) {
   const [buttonCopy, setButtonCopy] = useState(false);
@@ -21,6 +21,7 @@ export default function ListPhrase({ list, isLoading }: ArrayPhrase) {
     setButtonCopy(true);
     setButtonIndex(index);
   };
+
 
   if (isLoading) {
     return (
@@ -47,7 +48,9 @@ export default function ListPhrase({ list, isLoading }: ArrayPhrase) {
                   </td>
                   <td className="px-4 py-3">
                     <ButtonCopy
-                      isCopied={buttonCopy && buttonIndex === index ? true : false}
+                      isCopied={
+                        buttonCopy && buttonIndex === index ? true : false
+                      }
                       handleCopy={() => handleCopy(res.phrase, index)}
                     />
                   </td>
@@ -63,6 +66,5 @@ export default function ListPhrase({ list, isLoading }: ArrayPhrase) {
     );
   }
 
-  return null
-
+  return null;
 }

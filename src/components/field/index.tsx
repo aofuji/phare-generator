@@ -8,6 +8,15 @@ export default function Field({
   errors,
   fieldControl,
 }) {
+
+  let maxLength: Number = 0
+
+  if (nameInput === 'fieldAcessory') {
+    maxLength = 60
+  } else {
+    maxLength = 40
+  }
+
   return (
     <>
       {fields.map((field, index) => {
@@ -51,7 +60,7 @@ export default function Field({
             <input
               className={classCss}
               {...register(`${nameInput}.${index}.name` as const, {
-                required: true,
+                required: true, maxLength: maxLength
               })}
             />
 
@@ -59,6 +68,13 @@ export default function Field({
               errors?.[nameInput]?.[index]?.name.type === "required" && (
                 <p className="text-red-500 text-xs italic">
                   Campo Obrigatório.
+                </p>
+              )}
+
+            {errors?.[nameInput]?.[index]?.name &&
+              errors?.[nameInput]?.[index]?.name.type === "maxLength" && (
+                <p className="text-red-500 text-xs italic">
+                  Campo deve conter no máximo {maxLength} caracteres.
                 </p>
               )}
           </div>
