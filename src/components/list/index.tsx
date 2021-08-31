@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { isGeneratorFunction } from "util/types";
 import ButtonCopy from "../buttonCopy";
 import IconCheck from "../icons/check";
 import IconError from "../icons/error";
@@ -10,20 +12,29 @@ type Phrase = {
 type ArrayPhrase = {
   list: Array<Phrase>;
   isLoading: boolean;
+  isGernerator?: any;
 };
 
-export default function ListPhrase({ list, isLoading }: ArrayPhrase) {
+export default function ListPhrase({ list, isLoading, isGernerator }: ArrayPhrase) {
   const [buttonCopy, setButtonCopy] = useState(false);
   const [buttonIndex, setButtonIndex] = useState(0);
 
-  const handleCopy = (val: string, index) => {
+  const handleCopy = (val: string, index, isBUtton?: boolean) => {
     navigator.clipboard.writeText(val);
     setButtonCopy(true);
     setButtonIndex(index);
   };
 
+  useEffect(() => {
+
+   if(isGernerator) {
+     setButtonCopy(false)
+   }
+  },[isLoading]);
+
 
   if (isLoading) {
+
     return (
       <div className="flex flex-col justify-center">
         <div className="bg-white shadow-md rounded px-2 pt-2 pb-8 ">

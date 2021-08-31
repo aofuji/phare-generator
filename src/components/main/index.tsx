@@ -11,6 +11,7 @@ export default function Main() {
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState([]);
 
+  const[reset, setReset] = useState(false)  
 
 
   const onHandleDuplicates = (array) => {
@@ -85,6 +86,8 @@ export default function Main() {
 
     e.preventDefault();
 
+    setReset(true)
+
     setLoading(true);
 
 
@@ -117,20 +120,19 @@ export default function Main() {
     setTimeout(() => {
       setList(listSort);
       setLoading(false);
-    }, 2000);
+    }, 400);
   };
 
   const onHandleSortList = (arr: Array<any>):Array<any> => {
     const listArr = arr.sort((a, b) => {
 
-      if (a.phrase.length < 60)
-        return -1
 
       if (a.phrase.length === 60)
         return -2
 
       if (a.phrase.length < 60 && a.phrase.length > b.phrase.length)
         return -1
+
 
       if (a.phrase.length > 60)
         return 1;
@@ -293,7 +295,7 @@ export default function Main() {
         </form>
 
         <Loading value={loading} />
-        <ListPhrase list={list} isLoading={!loading} />
+        <ListPhrase list={list} isLoading={!loading} isGernerator={reset} />
       </main>
 
       <ToastContainer
