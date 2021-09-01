@@ -104,7 +104,9 @@ export default function Main() {
         progress: undefined,
       });
       // onHandleFieldErrPosition(data)
+      setLoading(false)
       return;
+      
     }
 
     const listAcessoryTwoPosition = concatFieldAcessory(data);
