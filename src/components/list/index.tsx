@@ -27,53 +27,53 @@ export default function ListPhrase({ list, isLoading, isGernerator }: ArrayPhras
 
   useEffect(() => {
 
-   if(isGernerator) {
-     setButtonCopy(false)
-   }
-  },[isLoading]);
+    if (isGernerator) {
+      setButtonCopy(false)
+    }
+  }, [isLoading]);
 
 
   if (isLoading) {
 
     return (
-      <div className="flex flex-col justify-center">
-        <div className="bg-white shadow-md rounded px-2 pt-2 pb-8 ">
-          <table className="table-auto rounded-t-lg m-5 w-full mx-auto text-gray-800">
-            <thead>
-              <tr className="text-left border-b-2 border-gray-300">
-                <th className="px-4 py-3">Frases</th>
-                <th className="px-4 py-3">Qtd</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Ação</th>
-              </tr>
-            </thead>
-            <tbody>
-              {list.map((res, index) => (
-                <tr key={res.phrase} className=" border-b border-gray-200">
-                  <td className="px-4 py-3" id="p1">
-                    {res.phrase}
-                  </td>
-                  <td className="px-4 py-3"> {res.phrase.length}</td>
-                  <td className="px-4 py-3">
-                    {res.phrase.length > 60 ? <IconError /> : <IconCheck />}
-                  </td>
-                  <td className="px-4 py-3">
-                    <ButtonCopy
-                      isCopied={
-                        buttonCopy && buttonIndex === index ? true : false
-                      }
-                      handleCopy={() => handleCopy(res.phrase, index)}
-                    />
-                  </td>
+        <div className="flex flex-col justify-center">
+          <div className="bg-white shadow-md rounded px-2 pt-2 pb-8 ">
+            <table className="table-auto rounded-t-lg m-5 w-full mx-auto text-gray-800">
+              <thead>
+                <tr className="text-left border-b-2 border-gray-300">
+                  <th className="px-4 py-3">Frases</th>
+                  <th className="px-4 py-3">Qtd</th>
+                  <th className="px-4 py-3">Status</th>
+                  <th className="px-4 py-3">Ação</th>
                 </tr>
-              ))}
-              <tr>
-                <td className="px-4 py-3">Quantidade: {list.length} </td>
-              </tr>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {list.map((res, index) => (
+                  <tr key={res.phrase} className=" border-b border-gray-200">
+                    <td className="px-4 py-3" id="p1">
+                      {res.phrase}
+                    </td>
+                    <td className="px-4 py-3"> {res.phrase.length}</td>
+                    <td className="px-4 py-3">
+                      {res.phrase.length > 60 ? <IconError /> : <IconCheck />}
+                    </td>
+                    <td className="px-4 py-3">
+                      <ButtonCopy
+                        isCopied={
+                          buttonCopy && buttonIndex === index ? true : false
+                        }
+                        handleCopy={() => handleCopy(res.phrase, index)}
+                      />
+                    </td>
+                  </tr>
+                ))}
+                <tr>
+                  <td className="px-4 py-3"><b>{list.length}</b> Frases geradas </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
     );
   }
 

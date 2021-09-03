@@ -2,8 +2,8 @@ import 'tailwindcss/tailwind.css'
 import '../styles/reset.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-function MyApp({ Component, pageProps }) {
+function MyPhraseGenerator({ Component, pageProps }) {
   return <Component {...pageProps} />
 }
 
-export default MyApp
+export default MyPhraseGenerator

@@ -59,6 +59,7 @@ export default function Field({
 
             <input
               className={classCss}
+              placeholder="Digite aqui..."
               {...register(`${nameInput}.${index}.name` as const, {
                 required: true, maxLength: maxLength
               })}

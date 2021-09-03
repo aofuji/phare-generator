@@ -11,8 +11,7 @@ export default function Main() {
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState([]);
 
-  const[reset, setReset] = useState(false)  
-
+  const [reset, setReset] = useState(false)
 
   const onHandleDuplicates = (array) => {
     return new Set(array).size !== array.length;
@@ -26,9 +25,9 @@ export default function Main() {
     formState: { errors },
   } = useForm<any>({
     defaultValues: {
-      fieldPrefix: [{ name: "Prefixo" }],
-      fieldSufix: [{ name: "Sufixo" }],
-      fieldAcessory: [{ name: "Acessory" }],
+      fieldPrefix: [{ name: "" }],
+      fieldSufix: [{ name: "" }],
+      fieldAcessory: [{ name: "" }],
     },
   });
 
@@ -106,7 +105,7 @@ export default function Main() {
       // onHandleFieldErrPosition(data)
       setLoading(false)
       return;
-      
+
     }
 
     const listAcessoryTwoPosition = concatFieldAcessory(data);
@@ -125,9 +124,8 @@ export default function Main() {
     }, 400);
   };
 
-  const onHandleSortList = (arr: Array<any>):Array<any> => {
+  const onHandleSortList = (arr: Array<any>): Array<any> => {
     const listArr = arr.sort((a, b) => {
-
 
       if (a.phrase.length === 60)
         return -2
@@ -243,6 +241,10 @@ export default function Main() {
   return (
     <div className="flex flex-col justify-center bg-gray-50">
       <main className="p-9">
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <h1>Titulo</h1>
+        </div>
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
