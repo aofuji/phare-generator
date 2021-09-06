@@ -242,7 +242,16 @@ export default function Main() {
     <div className="flex flex-col justify-center bg-gray-50">
       <main className="p-9">
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <h1>Titulo</h1>
+        <h1 className="text-6xl tracking-tight font-extrabold text-gray-900 text-center">
+            <span className="block xl:inline">Gerador de </span>
+            <span className="block text-indigo-600 xl:inline">Frases</span>
+          </h1>
+          <div className="flex w-full justify-center">
+            <p className="w-1/3 text-lg text-gray-500 mt-5 text-center justify-center">
+          Crie frases para usar nos títulos dos seus anúncios de uma forma simples e rápida. Gere muito títulos com o nosso gerados de frases.
+          </p> 
+          </div>
+                          
         </div>
 
         <form
@@ -251,11 +260,12 @@ export default function Main() {
         >
           {/* Prefix */}
           <div className="flex flex-wrap -mx-3 mb-6">
+          <p className="text-lg px-4 font-semibold">Qual o nome do seu produto? <span className="italic font-light">exemplo: mesa, teclado, caneta, etc.</span> </p>
             <Field
               fields={controlledFieldPrefix}
               register={register}
               nameInput="fieldPrefix"
-              label="Prefix"
+              label=""
               fieldControl={fieldPrefix}
               errors={errors}
             />
@@ -264,11 +274,12 @@ export default function Main() {
           <div className="flex flex-row justify-between">
             {/* Sufix */}
             <div className="w-full -mx-3 mb-6 mr-2">
+            <p className="text-lg px-4 font-semibold">Quais as principais características desse produto? <span className="italic font-light">exemplo: marca x, modelo y, ano z, etc.</span> </p>
               <Field
                 fields={controlledFieldsSufix}
                 register={register}
                 nameInput="fieldSufix"
-                label="Sufix"
+                label="1° característica"
                 fieldControl={fieldSufix}
                 errors={errors}
               />
@@ -276,11 +287,12 @@ export default function Main() {
 
             {/* Acessory */}
             <div className="w-full -mx-3 mb-6">
+            <p className="text-lg px-4 font-semibold">Quais as principais especificações desse produto? <span className="italic font-light">exemplo: cor azul, 4GB, 60cm, etc.</span> </p>
               <Field
                 fields={controlledFieldsAcessory}
                 register={register}
                 nameInput="fieldAcessory"
-                label="Acessorio"
+                label="1° especificação"
                 fieldControl={fieldAcessory}
                 errors={errors}
               />
@@ -288,12 +300,12 @@ export default function Main() {
           </div>
 
           {/* Button */}
-          <div className="flex flex-wrap -mx-3 mb-6 ml-1">
+          <div className="flex flex-wrap">
             <button
               type="submit"
-              className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+              className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 tracking-wider"
             >
-              Gerar
+              GERAR FRASES
             </button>
           </div>
         </form>

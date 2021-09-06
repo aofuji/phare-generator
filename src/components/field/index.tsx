@@ -33,29 +33,7 @@ export default function Field({
 
         return (
           <div key={field.id} className="w-full px-3">
-            <div className="flex flex-row justify-between">
-              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                {label}
-              </label>
-              <div className="">
-                <Button
-                  isButton={nameInput !== "fieldPrefix" ? true : false}
-                  fields={fields}
-                  nameInput={nameInput}
-                  nameButton="buttonAdd"
-                  index={index}
-                  fieldControl={fieldControl}
-                />
-                <Button
-                  isButton={nameInput !== "fieldPrefix" && fields.length > 1 ? true : false}
-                  fields={fields}
-                  nameInput={nameInput}
-                  nameButton="buttonRemove"
-                  index={index}
-                  fieldControl={fieldControl}
-                />
-              </div>
-            </div>
+            
 
             <input
               className={classCss}
@@ -78,6 +56,30 @@ export default function Field({
                   Campo deve conter no máximo {maxLength} caracteres.
                 </p>
               )}
+
+<div className="flex flex-row justify-between">
+              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                {label}
+              </label>
+              <div className="">
+                <Button
+                  isButton={nameInput !== "fieldPrefix" ? true : false}
+                  fields={fields}
+                  nameInput={nameInput}
+                  nameButton="buttonAdd"
+                  index={index}
+                  fieldControl={fieldControl}
+                />
+                <Button
+                  isButton={nameInput !== "fieldPrefix" && fields.length > 1 ? true : false}
+                  fields={fields}
+                  nameInput={nameInput}
+                  nameButton="buttonRemove"
+                  index={index}
+                  fieldControl={fieldControl}
+                />
+              </div>
+            </div>
           </div>
         );
       })}

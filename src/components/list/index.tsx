@@ -42,9 +42,9 @@ export default function ListPhrase({ list, isLoading, isGernerator }: ArrayPhras
               <thead>
                 <tr className="text-left border-b-2 border-gray-300">
                   <th className="px-4 py-3">Frases</th>
-                  <th className="px-4 py-3">Qtd</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">Ação</th>
+                  <th className="px-4 py-3 text-center">Qtd. de caracteres</th>
+                  <th className="px-4 py-3 text-center">Status</th>
+                  <th className="px-4 py-3 text-center">Copie as frases</th>
                 </tr>
               </thead>
               <tbody>
@@ -53,11 +53,11 @@ export default function ListPhrase({ list, isLoading, isGernerator }: ArrayPhras
                     <td className="px-4 py-3" id="p1">
                       {res.phrase}
                     </td>
-                    <td className="px-4 py-3"> {res.phrase.length}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 text-center"> {res.phrase.length}</td>
+                    <td className="px-4 py-3 text-center">
                       {res.phrase.length > 60 ? <IconError /> : <IconCheck />}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 text-center">
                       <ButtonCopy
                         isCopied={
                           buttonCopy && buttonIndex === index ? true : false
