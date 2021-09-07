@@ -10,7 +10,9 @@ type ButtonTypes = {
 }
 
 export default function Button({ fields, fieldControl, nameButton, index, nameInput, isButton }: ButtonTypes) {
-  const addField = (field: any): void => {
+  const addField = (e,field: any): void => {
+    e.preventDefault()
+
 
     if (nameInput === "fieldSufix" && fields.length > 19) {
       toast.warn('Limite de 20 campos!', {
@@ -46,7 +48,7 @@ export default function Button({ fields, fieldControl, nameButton, index, nameIn
       return (
         <button
           className="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow mb-2"
-          onClick={() => addField(fieldControl)}
+          onClick={(e) => addField(e,fieldControl)}
         >
           +
         </button>
