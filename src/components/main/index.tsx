@@ -279,7 +279,7 @@ export default function Main() {
                 fields={controlledFieldsSufix}
                 register={register}
                 nameInput="fieldSufix"
-                label="1° característica"
+                label="característica"
                 fieldControl={fieldSufix}
                 errors={errors}
               />
@@ -292,7 +292,7 @@ export default function Main() {
                 fields={controlledFieldsAcessory}
                 register={register}
                 nameInput="fieldAcessory"
-                label="1° especificação"
+                label="especificação"
                 fieldControl={fieldAcessory}
                 errors={errors}
               />

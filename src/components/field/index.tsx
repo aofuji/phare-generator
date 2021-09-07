@@ -33,35 +33,24 @@ export default function Field({
 
         return (
           <div key={field.id} className="w-full px-3">
-            
 
-            <input
-              className={classCss}
-              placeholder="Digite aqui..."
-              {...register(`${nameInput}.${index}.name` as const, {
-                required: true, maxLength: maxLength
-              })}
-            />
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              {nameInput !== 'fieldPrefix' ? `${index + 1}° ${label}` : ''}
+            </label>
 
-            {errors?.[nameInput]?.[index]?.name &&
-              errors?.[nameInput]?.[index]?.name.type === "required" && (
-                <p className="text-red-500 text-xs italic">
-                  Campo Obrigatório.
-                </p>
-              )}
-
-            {errors?.[nameInput]?.[index]?.name &&
-              errors?.[nameInput]?.[index]?.name.type === "maxLength" && (
-                <p className="text-red-500 text-xs italic">
-                  Campo deve conter no máximo {maxLength} caracteres.
-                </p>
-              )}
-
-<div className="flex flex-row justify-between">
-              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                {label}
-              </label>
-              <div className="">
+            <div className="flex flex-row justify-between">
+              {/* Input */}
+              <div className={nameInput === 'fieldPrefix' ? 'w-full' : 'w-full'} >
+                <input
+                  className={classCss}
+                  placeholder="Digite aqui..."
+                  {...register(`${nameInput}.${index}.name` as const, {
+                    required: true, maxLength: maxLength
+                  })}
+                />
+              </div>
+              {/* BUttons ADD Remove */}
+              <div className="flex justify-center ml-5">
                 <Button
                   isButton={nameInput !== "fieldPrefix" ? true : false}
                   fields={fields}
@@ -79,6 +68,22 @@ export default function Field({
                   fieldControl={fieldControl}
                 />
               </div>
+            </div>
+                  {/* Mensagens de erro */}
+            <div className="">
+              {errors?.[nameInput]?.[index]?.name &&
+                errors?.[nameInput]?.[index]?.name.type === "required" && (
+                  <p className="text-red-500 text-xs italic">
+                    Campo Obrigatório.
+                  </p>
+                )}
+
+              {errors?.[nameInput]?.[index]?.name &&
+                errors?.[nameInput]?.[index]?.name.type === "maxLength" && (
+                  <p className="text-red-500 text-xs italic">
+                    Campo deve conter no máximo {maxLength} caracteres.
+                  </p>
+                )}
             </div>
           </div>
         );
