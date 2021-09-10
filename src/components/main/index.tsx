@@ -11,7 +11,7 @@ export default function Main() {
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState([]);
 
-  const [reset, setReset] = useState(false)
+  const [resetBtn, setResetBtn] = useState(false)
 
   const onHandleDuplicates = (array) => {
     return new Set(array).size !== array.length;
@@ -22,6 +22,7 @@ export default function Main() {
     handleSubmit,
     control,
     watch,
+    reset,
     formState: { errors },
   } = useForm<any>({
     defaultValues: {
@@ -85,7 +86,7 @@ export default function Main() {
 
     e.preventDefault();
 
-    setReset(true)
+    setResetBtn(true)
 
     setLoading(true);
 
@@ -238,6 +239,14 @@ export default function Main() {
     return data;
   };
 
+  const resetFields = (): void => {
+    reset({
+      fieldPrefix: [{ name: "" }],
+      fieldSufix: [{ name: "" }],
+      fieldAcessory: [{ name: "" }],
+    })
+  }
+
   return (
     <div className="flex flex-col justify-center bg-gray-50">
       <main className="p-9">
@@ -303,6 +312,7 @@ export default function Main() {
           <div className="flex justify-end">
             <button
               type="reset"
+              onClick={resetFields}
               className="mr-3 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-400 hover:bg-gray-500 tracking-wider"
             >
               RESETAR CAMPOS
@@ -317,7 +327,7 @@ export default function Main() {
         </form>
 
         <Loading value={loading} />
-        <ListPhrase list={list} isLoading={!loading} isGernerator={reset} />
+        <ListPhrase list={list} isLoading={!loading} isGernerator={resetBtn} />
       </main>
 
       <ToastContainer
