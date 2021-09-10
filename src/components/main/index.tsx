@@ -274,7 +274,7 @@ export default function Main() {
           <div className="flex flex-row justify-between">
             {/* Sufix */}
             <div className="w-full -mx-3 mb-6 mr-2">
-              <p className="text-lg px-4 font-semibold">Quais as principais características desse produto? <span className="italic font-light">exemplo: marca x, modelo y, ano z, etc.</span> </p>
+              <p className="text-lg px-4 mb-3 font-semibold">Quais as principais características desse produto? <span className="italic font-light">exemplo: marca x, modelo y, ano z, etc.</span> </p>
               <Field
                 fields={controlledFieldsSufix}
                 register={register}
@@ -287,7 +287,7 @@ export default function Main() {
 
             {/* Acessory */}
             <div className="w-full -mx-3 mb-6">
-              <p className="text-lg px-4 font-semibold">Quais as principais especificações desse produto? <span className="italic font-light">exemplo: cor azul, 4GB, 60cm, etc.</span> </p>
+              <p className="text-lg px-4 mb-3 font-semibold">Quais as principais especificações desse produto? <span className="italic font-light">exemplo: cor azul, 4GB, 60cm, etc.</span> </p>
               <Field
                 fields={controlledFieldsAcessory}
                 register={register}
@@ -300,10 +300,16 @@ export default function Main() {
           </div>
 
           {/* Button */}
-          <div className="flex flex-wrap">
+          <div className="flex justify-end">
+            <button
+              type="reset"
+              className="mr-3 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-400 hover:bg-gray-500 tracking-wider"
+            >
+              RESETAR CAMPOS
+            </button>
             <button
               type="submit"
-              className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 tracking-wider"
+              className="items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 tracking-wider"
             >
               GERAR FRASES
             </button>

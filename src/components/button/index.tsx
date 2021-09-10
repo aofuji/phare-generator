@@ -47,7 +47,7 @@ export default function Button({ fields, fieldControl, nameButton, index, nameIn
     if (nameButton === "buttonAdd") {
       return (
         <button
-          className="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow mb-2"
+          className="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow mb-3"
           onClick={(e) => addField(e,fieldControl)}
         >
           +
@@ -57,7 +57,7 @@ export default function Button({ fields, fieldControl, nameButton, index, nameIn
 
     return (
       <button
-        className="bg-red-600 hover:bg-red-500 text-white font-semibold py-2 px-5 border border-gray-400 rounded shadow mb-2 ml-2"
+        className="bg-red-600 hover:bg-red-500 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow mb-3 ml-3"
         onClick={() => fieldControl.remove(index)}
       >
         -

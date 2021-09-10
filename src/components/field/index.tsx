@@ -50,7 +50,7 @@ export default function Field({
                 />
               </div>
               {/* BUttons ADD Remove */}
-              <div className="flex justify-center ml-5">
+              <div className="flex justify-center ml-3">
                 <Button
                   isButton={nameInput !== "fieldPrefix" ? true : false}
                   fields={fields}
