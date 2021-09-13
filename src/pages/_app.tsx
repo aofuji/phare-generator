@@ -1,4 +1,5 @@
-import 'tailwindcss/tailwind.css'
+// import 'tailwindcss/tailwind.css'
+import '../styles/styles.css'
 import '../styles/reset.css';
 import 'react-toastify/dist/ReactToastify.css';
 
