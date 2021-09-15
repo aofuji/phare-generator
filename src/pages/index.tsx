@@ -13,7 +13,7 @@ export default function Home() {
       <Head>
         <title>Gerador de frases</title>
         <link rel="icon" href="/favicon.ico" />
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-71QH0L8W6W" />
+        {/* <Script async src="https://www.googletagmanager.com/gtag/js?id=G-71QH0L8W6W" />
         <Script
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
@@ -26,7 +26,7 @@ export default function Home() {
             });
           `,
         }}
-      />
+      /> */}
       </Head>
 
       {/* <Header /> */}
