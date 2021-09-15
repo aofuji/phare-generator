@@ -250,15 +250,24 @@ export default function Main() {
   return (
     <div className="flex flex-col justify-center bg-gray-50">
       <main className="p-9">
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-row">
+          
+          <div className="w-4/6">
           <h1 className="text-6xl tracking-tight font-extrabold text-gray-900 text-center">
             <span className="block xl:inline">Gerador de </span>
             <span className="block text-indigo-600 xl:inline">Frases</span>
           </h1>
-          <div className="flex w-full justify-center">
-            <p className="w-1/3 text-lg text-gray-500 mt-5 text-center justify-center">
+            <p className="text-lg text-gray-500 mt-5 text-center justify-center">
               Crie frases para usar nos títulos dos seus anúncios de uma forma simples e rápida. Gere muito títulos com o nosso gerados de frases.
             </p>
+          </div>
+
+          <div className="w-2/6 justify-center bg-indigo-600 shadow-md rounded items-center flex flex-row p-4">
+          <img className="object-contain" src="https://gruporgm.com.br/wp-content/uploads/2021/09/qr-code-pix-gerador-frases.png" alt="" />
+                <p className="w-15 text- text-xl text-white ml-3 mt-3 text-justify">
+                    Gostou? Se quiser ajudar doe para manter o projeto sempre funcionando e atualizado. <b>Obrigado!</b><br /><br />
+                    <span className="italic text-sm"><b>Pix:</b> CPF 555.555.55-55</span>
+                </p>          
           </div>
 
         </div>
