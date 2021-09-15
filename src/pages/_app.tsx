@@ -5,6 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router'
 
+declare global {
+  interface Window {
+    gtag:any;
+  }
+}
+
 function MyPhraseGenerator({ Component, pageProps }) {
 
   const router = useRouter()
