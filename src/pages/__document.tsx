@@ -7,13 +7,12 @@ class MyDocument extends Document {
   }
 
   render() {
-    const GA_TRACKING_ID = 'G-71QH0L8W6W';
 
     return (
       <Html>
         <Head>
 
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-71QH0L8W6W" />
+        {/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-71QH0L8W6W" />
         <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -25,7 +24,7 @@ class MyDocument extends Document {
             });
           `,
             }}
-          />
+          /> */}
 
           </Head>
         <body>
