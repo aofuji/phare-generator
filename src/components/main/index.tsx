@@ -267,7 +267,7 @@ export default function Main() {
                 <p className="w-15 text- text-xl text-white ml-3 mt-3 text-justify">
                     Gostou? Se quiser ajudar doe para manter o projeto sempre funcionando e atualizado. <b>Obrigado!</b><br />
                     <span className="italic text-sm"><b>Nome:</b> André Ofuji</span><br />
-                    <span className="italic text-sm"><b>Chave PIX:</b> d1ee43da-7940-41b4-997b-4bdf4756f10a</span>
+                    <span className="italic text-sm"><b>Chave PIX:</b></span>
                 </p>          
           </div>
 
